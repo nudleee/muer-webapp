@@ -3,42 +3,39 @@ import { MSAL_GUARD_CONFIG, MsalGuardConfiguration, MsalService } from '@azure/m
 import { AuthenticationResult, InteractionType, PopupRequest, RedirectRequest } from '@azure/msal-browser';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthServiceService {
-
-  constructor( 
+  constructor(
     @Inject(MSAL_GUARD_CONFIG) private msalGuardConfig: MsalGuardConfiguration,
     private authService: MsalService,
-  ) { }
+  ) {}
 
   login() {
     if (this.msalGuardConfig.interactionType === InteractionType.Popup) {
-            if (this.msalGuardConfig.authRequest) {
-            this.authService.loginPopup({...this.msalGuardConfig.authRequest} as PopupRequest)
-                .subscribe((response: AuthenticationResult) => {
-                    this.authService.instance.setActiveAccount(response.account);
-                });
-        } else {
-            this.authService.loginPopup()
-                .subscribe((response: AuthenticationResult) => {
-                    this.authService.instance.setActiveAccount(response.account);
-                });
-        }
+      if (this.msalGuardConfig.authRequest) {
+        this.authService
+          .loginPopup({ ...this.msalGuardConfig.authRequest } as PopupRequest)
+          .subscribe((response: AuthenticationResult) => {
+            this.authService.instance.setActiveAccount(response.account);
+          });
+      } else {
+        this.authService.loginPopup().subscribe((response: AuthenticationResult) => {
+          this.authService.instance.setActiveAccount(response.account);
+        });
+      }
     } else {
-        if (this.msalGuardConfig.authRequest) {
-            this.authService.loginRedirect({...this.msalGuardConfig.authRequest} as RedirectRequest);
-        } else {
-            this.authService.loginRedirect();
-        }
+      if (this.msalGuardConfig.authRequest) {
+        this.authService.loginRedirect({ ...this.msalGuardConfig.authRequest } as RedirectRequest);
+      } else {
+        this.authService.loginRedirect();
+      }
     }
-    }
+  }
 
-    logout() {
-        this.authService.logoutRedirect()
-        localStorage.clear();
-        sessionStorage.clear()
-        console.log("all cleared")
-      
-    }
+  logout() {
+    this.authService.logoutRedirect({ postLogoutRedirectUri: '/home' });
+    localStorage.clear();
+    sessionStorage.clear();
+  }
 }

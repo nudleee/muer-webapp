@@ -1,1 +1,30 @@
-<p>header works!</p>
+<mat-toolbar class="header-wrapper">
+  <div class="header-container">
+    <div class="header-button-wrapper">
+      <button mat-button routerLink="/home"><img src="../../../assets/muer_logo.png" alt="logo" /></button>
+      <button mat-button class="header-button" routerLink="/all-team">Csapatok</button>
+      <button mat-button class="header-button" routerLink="/contact-us">Rólunk</button>
+      <button mat-button class="header-button" routerLink="/contact-us">Kapcsolat</button>
+    </div>
+    <div class="header-button-wrapper">
+      <button mat-button class="header-button" (click)="login()">Regisztrálj</button>
+      <button mat-button [matMenuTriggerFor]="beforeMenu">
+        <img src="../../../assets/person.svg" alt="profile" />
+      </button>
+      <mat-menu #beforeMenu="matMenu" xPosition="before">
+        <div class="header-menu-item-wrapper">Lorem ipsum...</div>
+        <div class="header-menu-item-wrapper">
+          <button mat-button class="header-menu-item-button" routerLink="/profile">Profilom</button>
+        </div>
+        <div class="header-menu-item-wrapper">
+          <button mat-button class="header-menu-item-button" routerLink="/settings">Beállítások</button>
+        </div>
+        <div class="header-menu-item-wrapper">
+          <button mat-button class="header-menu-item-button" style="background-color: #d41b1b" (click)="logout()">
+            Kijelentkezés
+          </button>
+        </div>
+      </mat-menu>
+    </div>
+  </div>
+</mat-toolbar>
