@@ -5,4 +5,5 @@ import { Component } from '@angular/core';
   templateUrl: './contac-us-page.component.html',
   styleUrls: ['./contac-us-page.component.css'],
 })
-export class ContacUsPageComponent {}
+export class ContacUsPageComponent {
+}

@@ -29,6 +29,11 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatMenuModule } from '@angular/material/menu';
+import {MatCardModule} from '@angular/material/card';
+import { CardComponent } from './components/card/card.component';
+import { CardContentComponent } from './components/card-content/card-content.component';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+
 
 export function MSALInstanceFactory(): IPublicClientApplication {
   return new PublicClientApplication(msalConfig);
@@ -52,6 +57,8 @@ export function MSALGuardConfigFactory(): MsalGuardConfiguration {
     AllTeamPageComponent,
     SettingsPageComponent,
     NotFoundPageComponent,
+    CardComponent,
+    CardContentComponent,
   ],
   imports: [
     BrowserModule,
@@ -62,6 +69,7 @@ export function MSALGuardConfigFactory(): MsalGuardConfiguration {
     MatIconModule,
     MatToolbarModule,
     MatMenuModule,
+    MatCardModule
   ],
   providers: [
     {

@@ -1,0 +1,16 @@
+.card-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    margin-bottom:30px;
+}
+
+.row-header {
+    font-size: 24px; 
+    margin: 0px;
+}
+.row-text {
+    font-size: 20px;
+     margin: 0px;
+}

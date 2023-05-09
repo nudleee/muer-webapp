@@ -1,4 +1,5 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { AccountInfo } from '@azure/msal-browser';
 import { AuthServiceService } from 'src/app/services/auth-service.service';
 
 @Component({
