@@ -1,1 +1,49 @@
-<p>profile-page works!</p>
+<div class="page-container">
+  <div class="profile-container">
+    <div class="profile-picture">
+      <img
+        style="background-color: grey"
+        src="../../../assets/person.svg"
+        width="300"
+        height="100%"
+        alt="profile_picture"
+      />
+    </div>
+    <div class="profile-data">
+      <div class="data-row title">
+        Példa Pál
+        <div *ngIf="nickname">({{ nickname }})</div>
+      </div>
+      <div class="data-row role">Játékos</div>
+      <div class="data-row description">
+        {{ description }}
+      </div>
+      <div class="button-container">
+        <button mat-button class="edit-button" (click)="openEditProfileDialog()">Szerkeszt</button>
+      </div>
+    </div>
+  </div>
+  <div class="divider">
+    <div class="line"></div>
+  </div>
+  <div class="teams-title-container">Csapataim</div>
+  <div class="teams-container">
+    <app-card title="Csapatnév">
+      <app-card-content
+        image="../../../assets/team.png"
+        infoTitle="Edző Ede"
+        infoText1="Edző"
+        infoText2="edzo.ede@email.com"
+      ></app-card-content>
+    </app-card>
+    <app-card title="Csapatnév">
+      <app-card-content
+        image="../../../assets/team.png"
+        infoTitle="Edző Ede"
+        infoText1="Edző"
+        infoText2="edzo.ede@email.com"
+      ></app-card-content>
+    </app-card>
+  </div>
+  <mat-paginator [pageSize]="2" [length]="8" aria-label="Select"></mat-paginator>
+</div>

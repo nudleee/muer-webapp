@@ -1,1 +1,27 @@
-<p>settings-page works!</p>
+<div class="page-container">
+  <div class="header">
+    <div class="tabs">
+      <mat-tab-group
+        mat-stretch-tabs="true"
+        [selectedIndex]="selected.value"
+        (selectedIndexChange)="selected.setValue($event)"
+      >
+        <mat-tab label="Felhasználók">
+          <app-user-settings></app-user-settings>
+        </mat-tab>
+        <mat-tab label="Csapatok">
+          <app-team-settings></app-team-settings>
+        </mat-tab>
+        <mat-tab label="Posztok">
+          <app-post-settings></app-post-settings>
+        </mat-tab>
+      </mat-tab-group>
+    </div>
+    <div *ngIf="selected.value == 1">
+      <button mat-button class="create-button">Létrehoz</button>
+    </div>
+    <div *ngIf="selected.value == 2">
+      <button mat-button class="create-button">Létrehoz</button>
+    </div>
+  </div>
+</div>

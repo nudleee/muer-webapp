@@ -16,7 +16,7 @@ import {
 import { IPublicClientApplication, InteractionType, PublicClientApplication } from '@azure/msal-browser';
 import { msalConfig } from './auth-config';
 import { HomePageComponent } from './pages/home-page/home-page.component';
-import { ProfilePageComponent } from './pages/profile-page/profile-page.component';
+import { EditProfileDialog, ProfilePageComponent } from './pages/profile-page/profile-page.component';
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { TeamPageComponent } from './pages/team-page/team-page.component';
@@ -29,11 +29,19 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatMenuModule } from '@angular/material/menu';
-import {MatCardModule} from '@angular/material/card';
+import { MatCardModule } from '@angular/material/card';
 import { CardComponent } from './components/card/card.component';
 import { CardContentComponent } from './components/card-content/card-content.component';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MAT_DIALOG_DEFAULT_OPTIONS, MatDialogModule } from '@angular/material/dialog';
+import { MatInputModule } from '@angular/material/input';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatTableModule } from '@angular/material/table';
 
+import { FormsModule } from '@angular/forms';
+import { UserSettingsComponent } from './pages/settings-page/components/user-settings/user-settings.component';
+import { TeamSettingsComponent } from './pages/settings-page/components/team-settings/team-settings.component';
+import { PostSettingsComponent } from './pages/settings-page/components/post-settings/post-settings.component';
 
 export function MSALInstanceFactory(): IPublicClientApplication {
   return new PublicClientApplication(msalConfig);
@@ -59,6 +67,10 @@ export function MSALGuardConfigFactory(): MsalGuardConfiguration {
     NotFoundPageComponent,
     CardComponent,
     CardContentComponent,
+    EditProfileDialog,
+    UserSettingsComponent,
+    TeamSettingsComponent,
+    PostSettingsComponent,
   ],
   imports: [
     BrowserModule,
@@ -69,7 +81,13 @@ export function MSALGuardConfigFactory(): MsalGuardConfiguration {
     MatIconModule,
     MatToolbarModule,
     MatMenuModule,
-    MatCardModule
+    MatCardModule,
+    MatPaginatorModule,
+    MatDialogModule,
+    FormsModule,
+    MatInputModule,
+    MatTabsModule,
+    MatTableModule,
   ],
   providers: [
     {
@@ -80,6 +98,7 @@ export function MSALGuardConfigFactory(): MsalGuardConfiguration {
       provide: MSAL_GUARD_CONFIG,
       useFactory: MSALGuardConfigFactory,
     },
+    { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { hasBackdrop: true, disableClose: true, width: 500 } },
     MsalService,
     MsalGuard,
     MsalBroadcastService,
