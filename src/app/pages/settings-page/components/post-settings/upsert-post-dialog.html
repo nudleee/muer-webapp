@@ -1,0 +1,34 @@
+<h1 mat-dialog-title class="title" align="center">{{data.create ? 'Poszt létrehozása' : 'Poszt létrehozása'}}</h1>
+<div mat-dialog-content>
+  <div style="display: flex; flex-direction: column">
+    <mat-form-field>
+      <mat-label>Cím</mat-label>
+      <input matInput [(ngModel)]="data.post.title" />
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Típus</mat-label>
+      <mat-select [(ngModel)]="data.post.type">
+        <mat-option value="EVENT">Esemény</mat-option>
+        <mat-option value="TRAINING">Edzés</mat-option>
+        <mat-option value="DEFAULT">Bejegyzés</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field *ngIf="data.post.type === 'TRAINING'">
+      <mat-label>Edzés</mat-label>
+      <mat-select [(ngModel)]="data.post.trainingId">
+        <mat-option *ngFor="let training of trainings" [value]="training.id"
+          >{{training.date | date: 'yyyy-MM-dd'}} {{training.startAt}} {{training.location}}</mat-option
+        >
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Leírás</mat-label>
+      <textarea matInput #description maxlength="256" [(ngModel)]="data.post.description"></textarea>
+      <mat-hint align="end">{{description.value.length}} / 256</mat-hint>
+    </mat-form-field>
+  </div>
+</div>
+<div mat-dialog-actions align="end">
+  <button mat-button (click)="onCancelClick()">Mégse</button>
+  <button mat-button class="button" (click)="onSave()" [mat-dialog-close]="data" cdkFocusInitial>Mentés</button>
+</div>

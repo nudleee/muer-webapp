@@ -1,1 +1,33 @@
-<p>all-team-page works!</p>
+<div class="page-container">
+  <div class="card-container">
+    <div *ngFor="let item of teams?.data | slice : lowValue : highValue - 2">
+      <app-card [title]="item.name" (click)="navigate(item)">
+        <app-card-content
+          image="../../../assets/team.png"
+          [infoTitle]="item.coach.name"
+          [infoText1]="item.coach.role"
+          [infoText2]="item.coach.email"
+        ></app-card-content>
+      </app-card>
+    </div>
+  </div>
+  <div class="card-container">
+    <div *ngFor="let item of teams?.data | slice : lowValue + 2 : highValue">
+      <app-card [title]="item.name" (click)="navigate(item)">
+        <app-card-content
+          image="../../../assets/team.png"
+          [infoTitle]="item.coach.name"
+          [infoText1]="item.coach.role"
+          [infoText2]="item.coach.email"
+        ></app-card-content>
+      </app-card>
+    </div>
+  </div>
+  <mat-paginator
+    [pageSize]="4"
+    [length]="teams?.total"
+    [pageIndex]="pageIndex"
+    (page)="getPage($event)"
+    aria-label="Select"
+  ></mat-paginator>
+</div>

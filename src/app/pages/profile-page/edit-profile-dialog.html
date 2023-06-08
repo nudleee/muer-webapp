@@ -1,0 +1,25 @@
+<h1 mat-dialog-title class="title" align="center">Profil szerkesztése</h1>
+<div mat-dialog-content>
+  <div style="display: flex; flex-direction: column">
+    <mat-form-field>
+      <mat-label>Becenév</mat-label>
+      <input matInput [(ngModel)]="data.nickname" />
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Leírás</mat-label>
+      <textarea matInput #description maxlength="256" [(ngModel)]="data.description"></textarea>
+      <mat-hint align="end">{{description.value.length}} / 256</mat-hint>
+    </mat-form-field>
+  </div>
+</div>
+<div mat-dialog-actions align="end">
+  <button mat-button (click)="onCancelClick()">Mégse</button>
+  <button
+    mat-button
+    class="edit-button"
+    [mat-dialog-close]="{nickname: data.nickname, description: data.description}"
+    cdkFocusInitial
+  >
+    Mentés
+  </button>
+</div>

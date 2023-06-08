@@ -1,0 +1,13 @@
+<div  class="{{single ? 'card': 'double-card-frame'}}">
+    <div *ngIf="avatar || title" class="card-header">
+        <div *ngIf="avatar" class="card-avatar">
+            <img [src]="avatar" alt="avatar">
+        </div>
+        <div *ngIf="title" class="card-header-text"> 
+            <p>{{title}}</p>
+        </div>
+    </div>
+    <div class="{{single ? '':'double-card'}}">
+        <ng-content></ng-content>
+    </div>
+</div>

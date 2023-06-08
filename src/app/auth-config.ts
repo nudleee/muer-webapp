@@ -1,4 +1,4 @@
-import { Configuration } from '@azure/msal-browser';
+import { BrowserCacheLocation, Configuration, LogLevel } from '@azure/msal-browser';
 import { environment } from 'src/environments/environment';
 
 export const b2cPolicies = {
@@ -17,19 +17,32 @@ export const b2cPolicies = {
   authorityDomain: `${environment.tenant}.b2clogin.com`,
 };
 
+export function loggerCallback(logLevel: LogLevel, message: string) {
+  console.log(message);
+}
+
 export const msalConfig: Configuration = {
   auth: {
     clientId: `${environment.clientID}`,
     authority: b2cPolicies.authorities.signUpSignIn.authority,
     knownAuthorities: [b2cPolicies.authorityDomain],
-    redirectUri: `${environment.redirectURL}`,
+    redirectUri: `${environment.redirectURL}/home`,
+  },
+  cache: {
+    cacheLocation: BrowserCacheLocation.LocalStorage,
   },
   // More configuration here
+  system: {
+    loggerOptions: {
+      loggerCallback,
+      logLevel: LogLevel.Info,
+    },
+  },
 };
 
 export const protectedResources = {
-  muerAPI: {
-    endpoint: 'http://localhost:4200',
-    scopes: ['https://muegyetemiropi.onmicrosoft.com/api/read', 'https://muegyetemiropi.onmicrosoft.com/api/write'],
+  api: {
+    endpoint: `${environment.backendUrl}`,
+    scopeUrl: 'https://muegyetemiropi.onmicrosoft.com/api/access',
   },
 };

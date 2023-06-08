@@ -1,1 +1,48 @@
-<p>profile-page works!</p>
+<div class="page-container">
+  <div class="profile-container">
+    <div class="profile-picture">
+      <img
+        style="background-color: grey"
+        src="../../../assets/person.svg"
+        width="300"
+        height="100%"
+        alt="profile_picture"
+      />
+    </div>
+    <div class="profile-data">
+      <div class="data-row title">
+        {{ name }}
+        <div *ngIf="nickname">({{ nickname }})</div>
+      </div>
+      <div class="data-row role">{{ role }}</div>
+      <div class="data-row description">
+        {{ description }}
+      </div>
+      <div class="button-container">
+        <button mat-button class="edit-button" (click)="openEditProfileDialog()">Szerkeszt</button>
+      </div>
+    </div>
+  </div>
+  <div class="divider">
+    <div class="line"></div>
+  </div>
+  <div *ngIf="teams?.total != 0" class="teams-title-container">Csapataim</div>
+  <div class="teams-container">
+    <app-card *ngFor="let team of teams?.data" [title]="team.name" (click)="navigate(team)">
+      <app-card-content
+        image="../../../assets/team.png"
+        [infoTitle]="team.coach.name"
+        [infoText1]="team.coach.role"
+        [infoText2]="team.coach.email"
+      ></app-card-content>
+    </app-card>
+  </div>
+  <mat-paginator
+    *ngIf="teams?.total != 0"
+    [pageIndex]="pageIndex"
+    [pageSize]="2"
+    [length]="teams?.total"
+    (page)="getPage($event)"
+    aria-label="Select"
+  ></mat-paginator>
+</div>

@@ -1,0 +1,55 @@
+<div class="table-container">
+  <div class="table-wrapper">
+    <mat-form-field>
+      <mat-label>Szűrés</mat-label>
+      <input matInput (input)="applyFilter($event)" placeholder="Pl. Cím" #input />
+    </mat-form-field>
+    <div class="button-container">
+      <button mat-button class="create-button" (click)="createPost()">Létrehoz</button>
+    </div>
+    <table mat-table [dataSource]="dataSource">
+      <ng-container matColumnDef="createdAt">
+        <th mat-header-cell *matHeaderCellDef>Időbélyeg</th>
+        <td class="table-column" mat-cell *matCellDef="let element">{{ element.createdAt | date : 'yyyy-MM-dd' }}</td>
+      </ng-container>
+      <ng-container matColumnDef="createdBy">
+        <th mat-header-cell *matHeaderCellDef>Szerző</th>
+        <td class="table-column" mat-cell *matCellDef="let element">{{ element.createdBy.name }}</td>
+      </ng-container>
+      <ng-container matColumnDef="title">
+        <th class="center" mat-header-cell *matHeaderCellDef>Cím</th>
+        <td class="table-column center" mat-cell *matCellDef="let element">{{ element.title }}</td>
+      </ng-container>
+      <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td class="table-column end" mat-cell *matCellDef="let element">
+          <div>
+            <button mat-icon-button [matMenuTriggerFor]="menu">
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item (click)="editPost(element)">
+                <span>Szerkesztés</span>
+              </button>
+              <button mat-menu-item (click)="deletePost(element)">
+                <span>Törlés</span>
+              </button>
+            </mat-menu>
+          </div>
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell">Nincs "{{ input.value }}" című poszt</td>
+      </tr>
+    </table>
+  </div>
+  <mat-paginator
+    [pageIndex]="pageIndex"
+    [pageSize]="10"
+    [length]="posts?.total"
+    (page)="getPage($event)"
+    aria-label="Select"
+  ></mat-paginator>
+</div>

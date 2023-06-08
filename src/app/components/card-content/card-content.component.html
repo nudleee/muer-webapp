@@ -1,0 +1,10 @@
+<div class="card-content">
+  <div *ngIf="image">
+    <img style="object-fit: cover; height: 350px" [src]="image" width="{{ single ? 368 : 400 }}" alt="image" />
+  </div>
+  <div *ngIf="infoTitle || infoText1 || infoText2">
+    <p *ngIf="infoTitle" class="row-header">{{ infoTitle }}</p>
+    <p *ngIf="infoText1" class="row-text">{{ infoText1 }}</p>
+    <p *ngIf="infoText2" class="row-text">{{ infoText2 }}</p>
+  </div>
+</div>

@@ -1,0 +1,48 @@
+<div class="table-container">
+  <div class="table-wrapper">
+    <mat-form-field>
+      <mat-label>Szűrés</mat-label>
+      <input matInput (keyup)="applyFilter($event)" placeholder="Pl. Pál" #input />
+    </mat-form-field>
+    <table mat-table [dataSource]="dataSource">
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef>Név</th>
+        <td class="table-column" mat-cell *matCellDef="let element">{{ element.name }}</td>
+      </ng-container>
+      <ng-container matColumnDef="role">
+        <th mat-header-cell *matHeaderCellDef>Hatáskör</th>
+        <td class="table-column" mat-cell *matCellDef="let element">{{ element.role }}</td>
+      </ng-container>
+      <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td class="table-column end" mat-cell *matCellDef="let element">
+          <div>
+            <button mat-icon-button [matMenuTriggerFor]="menu">
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item (click)="editUser(element)">
+                <span>Szerkesztés</span>
+              </button>
+              <button mat-menu-item (click)="deleteUser(element)">
+                <span>Törlés</span>
+              </button>
+            </mat-menu>
+          </div>
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell">Nincs "{{ input.value }}" nevű felhasználó</td>
+      </tr>
+    </table>
+  </div>
+  <mat-paginator
+    [pageIndex]="pageIndex"
+    [pageSize]="10"
+    [length]="users?.total"
+    (page)="getPage($event)"
+    aria-label="Select"
+  ></mat-paginator>
+</div>
