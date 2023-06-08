@@ -11,10 +11,10 @@
     </div>
     <div class="profile-data">
       <div class="data-row title">
-        Példa Pál
+        {{ name }}
         <div *ngIf="nickname">({{ nickname }})</div>
       </div>
-      <div class="data-row role">Játékos</div>
+      <div class="data-row role">{{ role }}</div>
       <div class="data-row description">
         {{ description }}
       </div>
@@ -26,24 +26,23 @@
   <div class="divider">
     <div class="line"></div>
   </div>
-  <div class="teams-title-container">Csapataim</div>
+  <div *ngIf="teams?.total != 0" class="teams-title-container">Csapataim</div>
   <div class="teams-container">
-    <app-card title="Csapatnév">
+    <app-card *ngFor="let team of teams?.data" [title]="team.name" (click)="navigate(team)">
       <app-card-content
         image="../../../assets/team.png"
-        infoTitle="Edző Ede"
-        infoText1="Edző"
-        infoText2="edzo.ede@email.com"
-      ></app-card-content>
-    </app-card>
-    <app-card title="Csapatnév">
-      <app-card-content
-        image="../../../assets/team.png"
-        infoTitle="Edző Ede"
-        infoText1="Edző"
-        infoText2="edzo.ede@email.com"
+        [infoTitle]="team.coach.name"
+        [infoText1]="team.coach.role"
+        [infoText2]="team.coach.email"
       ></app-card-content>
     </app-card>
   </div>
-  <mat-paginator [pageSize]="2" [length]="8" aria-label="Select"></mat-paginator>
+  <mat-paginator
+    *ngIf="teams?.total != 0"
+    [pageIndex]="pageIndex"
+    [pageSize]="2"
+    [length]="teams?.total"
+    (page)="getPage($event)"
+    aria-label="Select"
+  ></mat-paginator>
 </div>

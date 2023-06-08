@@ -1,0 +1,15 @@
+<h1 mat-dialog-title class="title" align="center">Játékos felvétele</h1>
+<div mat-dialog-content>
+  <div style="display: flex; flex-direction: column">
+    <mat-form-field>
+      <mat-label>Felhasználó</mat-label>
+      <mat-select [(ngModel)]="data.user">
+        <mat-option *ngFor="let user of users" [value]="user">{{user.name}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+</div>
+<div mat-dialog-actions align="end">
+  <button mat-button (click)="onCancelClick()">Mégse</button>
+  <button mat-button class="button" (click)="onSave()" [mat-dialog-close]="data" cdkFocusInitial>Mentés</button>
+</div>

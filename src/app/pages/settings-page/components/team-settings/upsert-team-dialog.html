@@ -1,0 +1,24 @@
+<h1 mat-dialog-title class="title" align="center">{{ data.create? 'Csapat létrehozása' : 'Csapat szerkesztése'}}</h1>
+<div mat-dialog-content>
+  <div style="display: flex; flex-direction: column">
+    <mat-form-field>
+      <mat-label>Csapatnév</mat-label>
+      <input matInput [(ngModel)]="data.team.name" />
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Edző</mat-label>
+      <mat-select [(ngModel)]="data.team.coach">
+        <mat-option *ngFor="let coach of coaches" [value]="data.team.coach || coach">{{coach.name}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Leírás</mat-label>
+      <textarea matInput #description maxlength="256" [(ngModel)]="data.team.description"></textarea>
+      <mat-hint align="end">{{description.value.length}} / 256</mat-hint>
+    </mat-form-field>
+  </div>
+</div>
+<div mat-dialog-actions align="end">
+  <button mat-button (click)="onCancelClick()">Mégse</button>
+  <button mat-button class="button" (click)="onSave()" [mat-dialog-close]="data" cdkFocusInitial>Mentés</button>
+</div>

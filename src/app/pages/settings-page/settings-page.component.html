@@ -6,22 +6,16 @@
         [selectedIndex]="selected.value"
         (selectedIndexChange)="selected.setValue($event)"
       >
-        <mat-tab label="Felhasználók">
+        <mat-tab *ngIf="isAdmin" label="Felhasználók">
           <app-user-settings></app-user-settings>
         </mat-tab>
-        <mat-tab label="Csapatok">
+        <mat-tab *ngIf="isAdmin" label="Csapatok">
           <app-team-settings></app-team-settings>
         </mat-tab>
-        <mat-tab label="Posztok">
+        <mat-tab *ngIf="isAdmin || isCoach" label="Posztok">
           <app-post-settings></app-post-settings>
         </mat-tab>
       </mat-tab-group>
-    </div>
-    <div *ngIf="selected.value == 1">
-      <button mat-button class="create-button">Létrehoz</button>
-    </div>
-    <div *ngIf="selected.value == 2">
-      <button mat-button class="create-button">Létrehoz</button>
     </div>
   </div>
 </div>

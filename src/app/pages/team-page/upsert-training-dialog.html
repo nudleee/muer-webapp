@@ -1,0 +1,28 @@
+<h1 mat-dialog-title class="title" align="center">{{data.create ? 'Edzés kiírása' : 'Edzés szerkesztése'}}</h1>
+<div mat-dialog-content>
+  <div style="display: flex; flex-direction: column">
+    <mat-form-field>
+      <mat-label>Dátum</mat-label>
+      <input matInput [matDatepicker]="picker" [(ngModel)]="data.training.date" />
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Helyszín</mat-label>
+      <input matInput [(ngModel)]="data.training.location" />
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Időpont</mat-label>
+      <input matInput type="time" [(ngModel)]="data.training.startAt" />
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Leírás</mat-label>
+      <textarea matInput #description maxlength="256" [(ngModel)]="data.training.description"></textarea>
+      <mat-hint align="end">{{description.value.length}} / 256</mat-hint>
+    </mat-form-field>
+  </div>
+</div>
+<div mat-dialog-actions align="end">
+  <button mat-button (click)="onCancelClick()">Mégse</button>
+  <button mat-button class="button" (click)="onSave()" [mat-dialog-close]="data" cdkFocusInitial>Mentés</button>
+</div>

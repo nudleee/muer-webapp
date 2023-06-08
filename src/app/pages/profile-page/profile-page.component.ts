@@ -1,7 +1,14 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { PageEvent } from '@angular/material/paginator';
+import { Router } from '@angular/router';
+import { AccountInfo } from '@azure/msal-browser';
+import { TeamDTO, TeamResponse } from 'src/app/models/team.model';
+import { AuthServiceService } from 'src/app/services/auth-service.service';
+import { TeamService } from 'src/app/services/team.service';
 
 export interface DialogData {
+  name: string;
   nickname: string;
   description: string;
 }
@@ -11,26 +18,48 @@ export interface DialogData {
   templateUrl: './profile-page.component.html',
   styleUrls: ['./profile-page.component.css'],
 })
-export class ProfilePageComponent {
-  nickname: string = 'Pali';
-  description: string =
-    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis in est vitae libero congue dapibus ut a augue. Ut' +
-    'vestibulum sapien vitae massa tristique luctus. Quisque et nisl nec urna dictum fermentum.';
+export class ProfilePageComponent implements OnInit {
+  nickname: string = '';
+  description: string = '';
+  role: string = '';
+  name: string = '';
+  currentUser: AccountInfo | null = null;
+  pageIndex = 0;
+  teams: TeamResponse | undefined;
 
-  constructor(public dialog: MatDialog) {}
+  constructor(
+    public dialog: MatDialog,
+    private authService: AuthServiceService,
+    private teamService: TeamService,
+    private router: Router,
+  ) {}
 
-  openEditProfileDialog() {
-    const dialogRef = this.dialog.open(EditProfileDialog, {
-      data: { nickname: this.nickname, description: this.description },
-    });
-
-    dialogRef.afterClosed().subscribe((result) => {
-      console.log(result);
-      if (!result) return;
-      this.nickname = result.nickname;
-      this.description = result.description;
+  ngOnInit(): void {
+    this.authService.getUserListener().subscribe((user) => (this.currentUser = user));
+    if (this.currentUser != null) {
+      this.name =
+        this.currentUser.idTokenClaims?.['family_name'] + ' ' + this.currentUser?.idTokenClaims?.['given_name'];
+      this.nickname = this.currentUser.idTokenClaims?.['extension_Nickname'] as string;
+      this.role = this.currentUser.idTokenClaims?.['extension_Role'] as string;
+      this.description = this.currentUser.idTokenClaims?.['extension_Description'] as string;
+    }
+    this.teamService.getTeams(this.pageIndex + 1, 2).subscribe((teams) => {
+      this.teams = teams;
     });
   }
+
+  getPage(event: PageEvent) {
+    this.pageIndex = event.pageIndex;
+    this.teamService.getTeams(this.pageIndex + 1, 2).subscribe((teams) => {
+      this.teams = teams;
+    });
+  }
+
+  navigate(item: TeamDTO) {
+    this.router.navigate([`teams`, item.id]);
+  }
+
+  openEditProfileDialog() {}
 }
 
 @Component({

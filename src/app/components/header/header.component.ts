@@ -1,5 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component,  OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { AccountInfo } from '@azure/msal-browser';
+import { Subscription } from 'rxjs';
 import { AuthServiceService } from 'src/app/services/auth-service.service';
 
 @Component({
@@ -7,8 +9,21 @@ import { AuthServiceService } from 'src/app/services/auth-service.service';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css'],
 })
-export class HeaderComponent {
-  constructor(private authService: AuthServiceService) {}
+export class HeaderComponent implements OnInit {
+  constructor(private authService: AuthServiceService, private router: Router) {}
+
+  ngOnInit(): void {
+    this.authenticatedUserSubscription = this.authService.getUserListener().subscribe((user) => {
+      this.currentUser = user;
+      this.isAdmin = this.authService.isAdmin();
+      this.isCoach = this.authService.isCoach();
+    });
+  }
+
+  authenticatedUserSubscription: Subscription | undefined;
+  currentUser: AccountInfo | null = null;
+  isAdmin: boolean = false;
+  isCoach: boolean = false;
 
   login() {
     this.authService.login();
@@ -16,5 +31,6 @@ export class HeaderComponent {
 
   logout() {
     this.authService.logout();
+    this.router.navigate(['home']);
   }
 }
